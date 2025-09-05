@@ -1,6 +1,15 @@
 const createElement = (arr) =>{
-    const htmlElements = arr.map((el) => `<span class = "btn">${el}</span> `);
+    const htmlElements = arr.map((el) => `<span class = "btn bg-[#1A91FF10]">${el}</span> `);
     return htmlElements.join(" ");
+}
+const manageSpinner = (status) =>{
+  if(status == true){
+    document.getElementById("spinner").classList.remove("hidden");
+    document.getElementById("word-container").classList.add("hidden");
+  }else{
+     document.getElementById("word-container").classList.remove("hidden");
+    document.getElementById("spinner").classList.add("hidden");
+  }
 }
 
 const loadLesson = () => {
@@ -14,6 +23,7 @@ const removeActive = () =>{
     lessonBtns.forEach((btn) => btn.classList.remove("active"));
 }
 const loadLevelWord = (id) =>{
+    manageSpinner(true);
     const url = `https://openapi.programming-hero.com/api/level/${id}`
     fetch(url)
     .then(res => res.json())
@@ -65,6 +75,7 @@ const displayWordDetail = (word) =>{
     document.getElementById("word_modal").showModal();
 }
 const displayLevelWord = (words) => {
+    
     const wordContainer = document.getElementById("word-container");
     wordContainer.innerHTML = "";
 
@@ -98,8 +109,9 @@ const displayLevelWord = (words) => {
   </div>
     `
     wordContainer.appendChild(wordCard)
-   })
-}
+   });
+   manageSpinner(false);
+};
 
 const displayLesson = (lessons) =>{
     const getContainer = document.getElementById("level-container");
